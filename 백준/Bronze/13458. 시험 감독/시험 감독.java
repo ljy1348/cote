@@ -12,13 +12,15 @@ public class Main {
 		long count = n;
 		String[] a = ai.split(" ");
 		String[] b = bc.split(" ");
+		int main = Integer.valueOf(b[0]);
+		int sub = Integer.valueOf(b[1]);
 		for (int i = 0; i < n; i++) {
-			int cal = Integer.valueOf(a[i]) - Integer.valueOf(b[0]);
+			int cal = Integer.valueOf(a[i]) - main;
 			if (cal > 0) {
-				if (cal % Integer.valueOf(b[1]) == 0) {
-					count += cal/Integer.valueOf(b[1]);
+				if (cal % sub == 0) {
+					count += cal/sub;
 				} else {
-					count += cal/Integer.valueOf(b[1])+1;
+					count += cal/sub+1;
 				}
 			}
 		}
