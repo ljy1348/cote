@@ -1,37 +1,33 @@
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+
 class Solution {
     public int[] solution(int[] progresses, int[] speeds) {
-        List<Integer> result = new ArrayList<>();
-        int idx = 0;
-        while (idx < progresses.length) {
-
-            for (int i = 0; i < progresses.length; i++) {
-                int temp = progresses[i];
-                int temp2 = speeds[i];
-                temp += temp2;
-                progresses[i] = temp;
-            }
-
-            int temp = 0;
-            for (int i = idx; i < progresses.length; i++) {
-                if (progresses[i] >= 100) {
-                    idx++;
-                    temp++;
-                } else {
-                    break;
-                }
-            }
-            if (temp > 0) {
-                result.add(temp);
+        
+        int[] work = new int[progresses.length];
+        List<Integer> list = new ArrayList();
+        
+        for (int i = 0; i<progresses.length; i++) {
+            work[i] = (int) Math.ceil((100 - progresses[i])/((double) speeds[i]));
+        }
+        
+        int workMax = work[0];
+        int count = 1;
+        for (int i = 1; i < work.length; i++) {
+            if (work[i] <= workMax) {
+                count++;
+            } else {
+                list.add(count);
+                workMax = work[i];
+                count = 1;
             }
         }
-        int[] answer = new int[result.size()];
-        for (int i = 0; i < result.size(); i++) {
-            answer[i] =result.get(i);
+        list.add(count);
+        int[] answer = new int[list.size()];
+        for (int i = 0; i<list.size(); i++) {
+            answer[i] = list.get(i);
         }
+        
         return answer;
     }
 }
