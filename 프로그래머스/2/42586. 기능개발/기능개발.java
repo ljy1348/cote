@@ -1,33 +1,37 @@
-import java.lang.reflect.Array;
 import java.util.*;
 
 class Solution {
     public int[] solution(int[] progresses, int[] speeds) {
         
-        int[] work = new int[progresses.length];
-        List<Integer> list = new ArrayList();
+        int index = 0;
+        List<Integer> resultList = new ArrayList<>();
+        int workCount = progresses.length;
         
-        for (int i = 0; i<progresses.length; i++) {
-            work[i] = (int) Math.ceil((100 - progresses[i])/((double) speeds[i]));
-        }
-        
-        int workMax = work[0];
-        int count = 1;
-        for (int i = 1; i < work.length; i++) {
-            if (work[i] <= workMax) {
-                count++;
-            } else {
-                list.add(count);
-                workMax = work[i];
-                count = 1;
+        while(index < workCount) {
+            int compDay = (int) Math.ceil((100.0 - progresses[index]) / speeds[index]);
+            int dayCompleteCount = 0;
+            boolean is_linked = true;
+            for (int i = index; i < workCount; i++) {
+                int now = progresses[i] + (compDay * speeds[i]);
+                if (is_linked && now >= 100) {
+                    progresses[i] = now;
+                    dayCompleteCount++;
+                    index++;
+                } else {
+                    progresses[i] = now;
+                    is_linked = false;
+                }
             }
-        }
-        list.add(count);
-        int[] answer = new int[list.size()];
-        for (int i = 0; i<list.size(); i++) {
-            answer[i] = list.get(i);
-        }
+            
+            resultList.add(dayCompleteCount);
+            
+        }      
         
-        return answer;
+        int[] result = new int[resultList.size()];
+        
+        for (int i = 0; i < resultList.size(); i++) {
+            result[i] = resultList.get(i);
+        }
+        return result;
     }
 }
