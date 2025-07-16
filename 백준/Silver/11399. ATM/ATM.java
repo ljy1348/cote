@@ -1,24 +1,33 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
 public class Main {
+
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int n = Integer.parseInt(br.readLine());
+        StringBuilder sb = new StringBuilder();
+        int peoples = Integer.parseInt(br.readLine());
+        
+        
+        
         StringTokenizer st = new StringTokenizer(br.readLine());
-        int[] arr = new int[n];
-        for (int i = 0; i < n; i++) {
+        int[] arr = new int[peoples];
+        int[] times = new int[peoples];
+        
+        for (int i = 0; i < peoples; i++) {
             arr[i] = Integer.parseInt(st.nextToken());
         }
+        
         Arrays.sort(arr);
-        long answer  = arr[0];
-        for (int i = 1; i < n; i++) {
-            arr[i] = arr[i] + arr[i-1];
-            answer += arr[i];
+        
+        times[0] = arr[0];
+        long answer = times[0];
+        for (int i = 1; i < peoples; i++) {
+            times[i] = arr[i] + times[i-1];
+            answer += times[i];
         }
         System.out.println(answer);
     }
+
+
 }
