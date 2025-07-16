@@ -1,29 +1,42 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.*;
-public class Main {
-    public static void main(String[] args)throws IOException {
-    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    String[] stArr = br.readLine().split(" ");
-    int n = Integer.parseInt(stArr[0]);
-    int m = Integer.parseInt(stArr[1]);
 
-    Set<String> set = new HashSet<>();
-    ArrayList<String> list = new ArrayList<>();
-    for (int i = 0; i < n; i++) {
-        String str = br.readLine();
-        set.add(str);
-    }
-    for (int i = 0; i < m; i++) {
-        String str = br.readLine();
-        if (set.contains(str)) list.add(str);
-    }
-        Collections.sort(list);
-        System.out.println(list.size());
-        for (int i = 0; i < list.size(); i++) {
-            System.out.println(list.get(i));
+public class Main {
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+
+        int notSeeCount = Integer.parseInt(st.nextToken());
+        int notListenCount = Integer.parseInt(st.nextToken());
+
+        Set<String> set = new HashSet<>();
+
+        while (--notSeeCount >= 0) {
+            set.add(br.readLine());
         }
 
+        List<String> list = new ArrayList<>();
+
+        while (--notListenCount >= 0) {
+            String name = br.readLine();
+            if (set.contains(name)) {
+                list.add(name);
+            }
+        }
+
+        Collections.sort(list);
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(list.size()).append("\n");
+        for (String name : list) {
+            sb.append(name).append("\n");
+        }
+
+        System.out.println(sb.toString());
+
+
     }
+
+
 }
