@@ -5,70 +5,65 @@ import java.util.*;
 
 public class Main {
 
-    static int[] result = new int[2];
-    static int[][] board;
 
-    public static void func(int x, int y, int n) {
-        if (n == 0) return;
-        int newN = n/2;
-        int[][] temp = {{x,y},{x,y+newN},{x+newN,y},{x+newN,y+newN}};
-
-        int blue = 0;
-        int white = 0;
-        for (int i = x; i < x+n; i++) {
-            for (int j = y; j < y+n; j++) {
-                if (board[i][j] == 1) blue++;
-                else white++;
-            }
-        }
-        if (blue == 0) {
-            result[0]++;
-            return;
-        }
-        else if (white == 0) {
-            result[1]++;
-            return;
-        }
-        for (int i = 0; i < temp.length; i++) {
-            int a = temp[i][0];
-            int b = temp[i][1];
-
-            func(temp[i][0], temp[i][1], newN);
-        }
-
-
-    }
+    static int blue = 0;
+    static int white = 0;
 
     public static void main(String[] args) throws IOException {
+
+        List<Integer> list = new ArrayList<>();
+
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
+
         int n = Integer.parseInt(br.readLine());
-        board = new int[n][n];
-        int blue = 0;
-        int white = 0;
+        int[][] arr = new int[n][n];
+
         for (int i = 0; i < n; i++) {
             StringTokenizer st = new StringTokenizer(br.readLine());
+
             for (int j = 0; j < n; j++) {
-                int now = Integer.parseInt(st.nextToken());
-                if (now == 1) blue++;
-                else white++;
-                board[i][j]=now;
+                arr[i][j] = Integer.parseInt(st.nextToken());
             }
         }
 
-        if (blue == 0) {
-            System.out.println(1);
-            System.out.println(0);
-        } else if (white == 0) {
-            System.out.println(0);
-            System.out.println(1);
-        } else {
-            func(0,0,n);
-            System.out.println(result[0]);
-            System.out.println(result[1]);
+        func(n, arr, 0, 0);
+
+        System.out.println(white);
+        System.out.println(blue);
+        br.close();
+    }
+
+    public static void func(int n, int[][] arr, int y, int x) {
+
+        boolean haveZero = false;
+        boolean haveOne = false;
+
+        for (int i = y; i < n+y; i++){
+            for (int j = x; j < n+x; j++) {
+                if (arr[i][j] == 0) {
+                    haveZero = true;
+                } else {
+                    haveOne = true;
+                }
+            }
         }
 
+        if (!haveZero && haveOne) {
+            blue++;
+            return;
+        }
+        if (haveZero && !haveOne) {
+            white++;
+            return;
+        }
 
+        int nextN = n/2;
 
+        func(n/2, arr, y, x);
+        func(n/2, arr, y+nextN, x);
+        func(n/2, arr, y+nextN, x+nextN);
+        func(n/2, arr, y, x+nextN);
 
 
     }
